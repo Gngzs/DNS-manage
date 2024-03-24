@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+<meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+<meta name="author" content="yinq">
+<title>登录页</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" type="text/css" href="css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/animate.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.min.css">
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body, html {
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+    }
+  
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #4364f7;
+      background-image: linear-gradient(326deg, #4364f7 0%, #6fb1fc 74%);
+    }
+  
+    .login-container {
+      position: relative;
+      width: 400px;
+      padding: 40px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+  
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #333;
+      font-size: 24px;
+    }
+  
+    .form-group {
+      position: relative;
+      margin-bottom: 24px;
+    }
+  
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      background: #f7f7f7;
+      border: 1px solid #e6e6e6;
+      outline: none;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: border-color 0.2s;
+    }
+  
+    .form-group input:focus {
+      border-color: #4364f7;
+    }
+  
+    .form-group label {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      pointer-events: none;
+      color: #aaa;
+      transform: translateY(-50%);
+      transition: 0.5s;
+      font-size: 16px;
+    }
+  
+    .form-group input:focus ~ label,
+    .form-group input:valid ~ label {
+      top: -10px;
+      left: 10px;
+      color: #4364f7;
+      font-size: 12px;
+    }
+  
+    .login-container form button {
+      width: 100%;
+      padding: 10px;
+      background: #4364f7;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.2s;
+    }
+  
+    .login-container form button:hover {
+      background-color: #3a54d7;
+    }
+  
+    .background-circle {
+      position: absolute;
+      width: 1000px;
+      height: 1000px;
+      border-radius: 50%;
+      background: #60a9f6;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s;
+    }
+  
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>登录</h2>
+  <form id="loginForm" action="javascript:void(0);">
+    <div class="form-group">
+      <input type="text" id="username" name="username" required>
+      <label for="username">账号</label>
+    </div>
+    <div class="form-group">
+      <input type="password" id="password" name="password" required>
+      <label for="password">密码</label>
+    </div>
+    <button type="submit" id="loginBtn">登录</button>
+  </form>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/popper.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.min.js"></script>
+<!--引入chart插件js-->
+<script type="text/javascript" src="js/chart.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
+<script>
+document.getElementById('loginForm').onsubmit = function(event) {
+  event.preventDefault();
+
+  var username = document.getElementById('username').value;
+  var password = document.getElementById('password').value;
+
+  // 检查表单完整性
+  if (username && password) {
+    // 初始化请求
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/login.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+    xhr.onreadystatechange = function() {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        // 请求成功后的回调
+        var response = JSON.parse(this.responseText);
+        // 处理登录成功的情况，这里可以根据实际情况调整
+        if (response.success) {
+          //alert('登录成功');
+          showNotify(response.message, 'success', 1500, 'mdi mdi-account-check', 'top', 'center','index.html');
+        } else {
+          //alert('登录失败：' + response.message);
+          showNotify(response.message, 'danger', 5000, 'mdi mdi-account-alert', 'top', 'center');
+        }
+      }
+    };
+
+    // 发送请求
+    xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+  } else {
+    // 如果表单不完整，提醒用户
+    alert('请填写用户名和密码');
+  }
+};
+</script>
+
+</body>
+</html>

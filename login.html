@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+    <meta name="author" content="yinq">
+    <title>登录 - 光年(Light Year Admin V5)后台管理系统模板</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" type="text/css" href="css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.min.css">
+    <style>
+        .signin-form .has-feedback {
+            position: relative;
+        }
+
+        .signin-form .has-feedback .form-control {
+            padding-left: 36px;
+        }
+
+        .signin-form .has-feedback .mdi {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: auto;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            z-index: 4;
+            color: #dcdcdc;
+            display: block;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .signin-form .has-feedback.row .mdi {
+            left: 15px;
+        }
+    </style>
+</head>
+
+<body class="center-vh" style="background-image: url(images/login-bg-2.jpg); background-size: cover;">
+    <div class="card card-shadowed p-5 mb-0 mr-2 ml-2">
+        <div class="text-center mb-3">
+            <a href="index.html"> <img alt="light year admin" src="images/logo-sidebar.png"> </a>
+        </div>
+
+        <form action="javascript:void(0);" id="loginForm" class="signin-form needs-validation" novalidate>
+            <div class="mb-3 has-feedback">
+                <span class="mdi mdi-account" aria-hidden="true"></span>
+                <input type="text" class="form-control" id="username" placeholder="用户名" required>
+            </div>
+
+            <div class="mb-3 has-feedback">
+                <span class="mdi mdi-lock" aria-hidden="true"></span>
+                <input type="password" class="form-control" id="password" placeholder="密码" required>
+            </div>
+
+            <div class="mb-3 has-feedback row">
+                <div class="col-7">
+                    <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>
+                    <input type="text" name="captcha" class="form-control" id="code" placeholder="验证码" required>
+                </div>
+                <div class="col-5 text-right">
+                    <img src="api/ajax.php?action=newCaptcha" class="pull-right" id="captcha" style="cursor: pointer;"
+                        onclick="this.src='api/ajax.php?action=newCaptcha&r='+Math.random();" title="点击刷新"
+                        alt="captcha">
+                </div>
+            </div>
+
+
+            <div class="mb-3 d-grid">
+                <button class="btn btn-primary" type="submit">立即登录</button>
+            </div>
+        </form>
+
+        <p class="text-center text-muted mb-0">Copyright © 2022 <a target="_blank"
+                href="http://www.bixiaguangnian.com">笔下光年</a>. All right reserved</p>
+    </div>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.min.js"></script>
+    <!--引入chart插件js-->
+    <script type="text/javascript" src="js/chart.min.js"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
+    <script type="text/javascript">
+        var loader;
+
+        document.getElementById('loginForm').onsubmit = function (event) {
+            if ($(this)[0].checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(this).addClass('was-validated');
+                return false;
+            }
+
+            event.preventDefault();
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var code = document.getElementById('code').value;
+
+            // 检查表单完整性
+            if (username && password && code) {
+                // 初始化请求
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/api/login.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                xhr.onreadystatechange = function () {
+                    //console.log("Ready state has changed, new state is: " + this.readyState);
+                    if (this.readyState == XMLHttpRequest.DONE) {
+                        //console.log("Request done, status is: " + this.status);
+                        if (this.status == 200) {
+                            $("button:submit").html('立即登录').attr("disabled", false);
+                            try {
+                                var response = JSON.parse(this.responseText);
+                                //console.log("Response received: ", response);
+                                if (response.success) {
+                                    showNotify(response.message, 'success', 1500, 'mdi mdi-account-check', 'top', 'center', 'index.html');
+                                } else {
+                                    document.getElementById("captcha").src = 'api/ajax.php?action=newCaptcha&r=' + Math.random();
+                                    showNotify(response.message, 'danger', 5000, 'mdi mdi-account-alert', 'top', 'center');
+                                }
+                            } catch (error) {
+                                $("button:submit").html('立即登录').attr("disabled", false);
+                                //console.error("Error parsing JSON response: ", error);
+                                document.getElementById("captcha").src = 'api/ajax.php?action=newCaptcha&r=' + Math.random();
+                                showNotify("解析响应时发生错误", 'danger', 5000, 'mdi mdi-account-alert', 'top', 'center');
+                            }
+                        } else {
+                            $("button:submit").html('立即登录').attr("disabled", false);
+                            document.getElementById("captcha").src = 'api/ajax.php?action=newCaptcha&r=' + Math.random();
+                            showNotify("服务器错误", 'danger', 5000, 'mdi mdi-account-alert', 'top', 'center');
+                        }
+                    }
+                };
+
+                // 发送请求
+                xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&code=" + encodeURIComponent(code));
+                $("button:submit").html('登录中...').attr("disabled", true);
+            } else {
+                // 如果表单不完整，提醒用户
+                alert('请填写用户名和密码');
+            }
+        };
+
+    </script>
+</body>
+
+</html>
