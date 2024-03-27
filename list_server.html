@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="js/bootstrap-table/bootstrap-table.min.css">
 </head>
 
 <body>
@@ -40,21 +41,23 @@
             <!--End 头部信息-->
             <!--页面主要内容-->
             <main class="lyear-layout-content">
+                <div class="container-fluid">
 
-                <div class="card">
-                    <header class="card-header">
-                        <div class="card-title">服务商列表</div>
-                    </header>
-                    <div class="card-body">
-                        <table id="domain-list"></table>
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <header class="card-header">
+                                    <div class="card-title">服务商列表</div>
+                                </header>
+                                <div class="card-body">
+
+                                    <table id="domain-list"></table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
-
-
-
-
             </main>
             <!--End 页面主要内容-->
         </div>
@@ -90,28 +93,98 @@
             $(".headerpage").load('header.html');
             $(".menupage").load('menu.html');
         });
-        var columns=[{
-            field:"ID",
-            title:"ID" 
-        },{
-            field:"server",
-            title:"服务"
-        },{
-            field:"location",
-            title:"DNS归属"
-        },{
-            field:"number",
-            title:"解析条数"
-        },{
-            field:"status",
-            title:"状态"
-        },{
-            field:"operate",
-            title:"操作"
+        var columns = [{
+            field: "servername",
+            title: "名称",
+            width: "150"
+        }, {
+            field: "server",
+            title: "服务商",
+            width: "150"
+        }, {
+            field: "secretid",
+            title: "访问密钥ID"
+        }, {
+            field: "secretkey",
+            title: "访问密钥Key"
+        }, {
+            field: "status",
+            title: "状态",
+            width: "150",
+            formatter: function (value,row,index){
+                return '<a class="btn btn-sm btn-default me-1 check-btn" id="check'+index+'" data-bs-toggle="tooltip">测试连接</a>';
+            },
+            events: {
+                'click .check-btn': function (event, value, row, index) {
+                    event.stopPropagation();
+                    checkfunc(row,index);
+                }
+            }
+        }, {
+            field: "enable",
+            title: "启用/禁用",
+            width: "150",
+            formatter: function (value, row, index) {
+                if (value == 0) {
+                    return '<span class="badge bg-danger">禁用</span>';
+                } else if (value == 1) {
+                    return '<span class="badge bg-success">启用</span>';
+                } else {
+                    return '<span class="badge bg-secondary">未知</span>';
+                }
+            }
+        }, {
+            field: "operate",
+            title: "操作",
+            width: "250"
         }];
+
+        function checkfunc(test,number) {
+            document.getElementById('check'+number).innerHTML = '<div class="spinner-border text-primary spinner-border-sm" role="status"><span class="visually-hidden">加载中...</span></div>加载中';
+            $.ajax({
+                url: 'api/ajax.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'checkServerStatus',
+                    server: test.server,
+                    secretid: test.secretid,
+                    secretkey: test.secretkey,
+                },
+                success: function (response) {
+                    if (response['status'] == 'server_error') {
+                        document.getElementById('check'+number).textContent = '连接失败';
+                    } else {
+                        document.getElementById('check'+number).textContent = '连接成功';
+                    };
+                }
+            });
+
+        };
+
         $('#domain-list').bootstrapTable({
             columns: columns,
-        })
+            url: "/api/ajax.php",
+            dataType: "json",
+            method: "POST",
+            sidePagination: 'server',
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10,
+            contentType: "application/x-www-form-urlencoded",
+            pageList: "[10, 20, 50, 200]",
+            paginationHAlign: "left",
+            paginationDetailHAlign: "right",
+            queryParams: function (params) {
+                params.action = "getServerList";
+                return params;
+            },
+            onLoadSuccess: function (data) {
+                $("[data-bs-toggle='tooltip']").tooltip();
+            }
+        });
+
+
     </script>
 </body>
 

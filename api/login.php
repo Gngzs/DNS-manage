@@ -1,5 +1,5 @@
 <?php
-include("basic.php");
+require_once("basic.php");
 
 
 // 设置返回类型为JSON

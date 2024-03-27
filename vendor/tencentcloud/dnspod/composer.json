@@ -1,0 +1,23 @@
+{
+    "name": "tencentcloud/dnspod",
+    "description": "TencentCloudApi php sdk dnspod",
+    "type": "library",
+    "homepage": "https://github.com/tencentcloud-sdk-php/dnspod",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "tencentcloudapi",
+            "email": "tencentcloudapi@tencent.com",
+            "homepage": "https://github.com/tencentcloud-sdk-php/dnspod",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "tencentcloud/common": "3.0.1108"
+    },
+    "autoload": {
+        "psr-4": {
+            "TencentCloud\\": "./src/TencentCloud"
+        }
+    }
+}
