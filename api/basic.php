@@ -192,3 +192,62 @@ function checkCaptcha($userInput)
         return false;
     }
 }
+
+//curl请求
+function CurlRequest($url, $method = 'GET', $data = null, $headers = null) {
+    // 初始化cURL会话
+    $curl = curl_init();
+
+    // 设置cURL选项
+    curl_setopt($curl, CURLOPT_URL, $url); // 设置请求的URL
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // 将curl_exec()获取的信息以文件流的形式返回，而不是直接输出
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // 启用时会将服务器服务器返回的“Location:”放在header中递归的返回给服务器
+
+    // 根据请求方法设置特定的cURL选项
+    switch (strtoupper($method)) {
+        case 'POST': // POST请求
+            curl_setopt($curl, CURLOPT_POST, true);
+            if ($data) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data); // 设置POST请求的数据
+            }
+            break;
+        case 'PUT': // PUT请求
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+            if ($data) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data); // 设置PUT请求的数据
+            }
+            break;
+        case 'DELETE': // DELETE请求
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            break;
+        // 可以继续添加其他请求方法
+        default: // 默认GET请求
+            if ($data) {
+                $url = sprintf("%s?%s", $url, http_build_query($data)); // 将GET参数添加到URL
+                curl_setopt($curl, CURLOPT_URL, $url);
+            }
+            break;
+    }
+
+    // 设置Header信息
+    if (!is_null($headers)) {
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    }
+
+    // 执行cURL请求
+    $response = curl_exec($curl);
+
+    // 检查是否有错误发生
+    if (curl_errno($curl)) {
+        $error_msg = curl_error($curl);
+        // 可以选择记录错误信息或者抛出异常等
+        curl_close($curl);
+        return $error_msg;
+    }
+
+    // 关闭cURL会话
+    curl_close($curl);
+
+    // 返回结果
+    return $response;
+}

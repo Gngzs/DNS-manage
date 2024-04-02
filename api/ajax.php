@@ -16,11 +16,20 @@ if (isset($_POST['action'])) {
             $action = $_POST['action'];
             switch ($action) {
                 case 'getServerList':
-                    $res = getServerList($_POST['offset'],$_POST['limit']);
-                    $message = array("total"=>count($res),"rows"=>$res);
+                    $res = getServerList($_POST['offset'], $_POST['limit']);
+                    $message = array("total" => count($res), "rows" => $res);
                     break;
                 case "checkServerStatus":
-                    $message=checkServerStatus($_POST["server"],$_POST["secretid"],$_POST["secretkey"]);
+                    $message = checkServerStatus($_POST["server"], $_POST["secretid"], $_POST["secretkey"]);
+                    break;
+                case "edit_server":
+                    $message = editServer($_POST['sql_id'],$_POST['servername'],$_POST['server'],$_POST['secretid'],$_POST['secretkey']);
+                    break;
+                case 'del_server':
+                    $message = delServer($_POST['sql_id']);
+                    break;
+                case 'able_server':
+                    $message = ableServer($_POST['sql_id'],$_POST['now_able']);
                     break;
             }
             echo json_encode($message);
