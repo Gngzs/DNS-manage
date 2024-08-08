@@ -194,7 +194,8 @@ function checkCaptcha($userInput)
 }
 
 //curl请求
-function CurlRequest($url, $method = 'GET', $data = null, $headers = null) {
+function CurlRequest($url, $method = 'GET', $data = null, $headers = null)
+{
     // 初始化cURL会话
     $curl = curl_init();
 
@@ -202,6 +203,7 @@ function CurlRequest($url, $method = 'GET', $data = null, $headers = null) {
     curl_setopt($curl, CURLOPT_URL, $url); // 设置请求的URL
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // 将curl_exec()获取的信息以文件流的形式返回，而不是直接输出
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // 启用时会将服务器服务器返回的“Location:”放在header中递归的返回给服务器
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);   // 设置连接超时时间（秒）
 
     // 根据请求方法设置特定的cURL选项
     switch (strtoupper($method)) {
@@ -220,7 +222,7 @@ function CurlRequest($url, $method = 'GET', $data = null, $headers = null) {
         case 'DELETE': // DELETE请求
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
             break;
-        // 可以继续添加其他请求方法
+            // 可以继续添加其他请求方法
         default: // 默认GET请求
             if ($data) {
                 $url = sprintf("%s?%s", $url, http_build_query($data)); // 将GET参数添加到URL

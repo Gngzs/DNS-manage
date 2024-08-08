@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="js/bootstrap-table/bootstrap-table.min.css">
 </head>
 
 <body>
@@ -29,6 +30,135 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal_dns_records" tabindex="-1" data-bs-backdrop="static"
+        aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLiveLabel">解析记录</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button type="button" class="btn btn-primary" id="btn_creat_record"><span
+                            class="mdi mdi-plus"></span>新增记录</button>
+                    <table id="dns-list"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal_edit_dns" tabindex="-1" data-bs-backdrop="static"
+        aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLiveLabel">编辑解析记录</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit_dns_form" class="was-validated">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="hostRecord" class="form-label"><strong>主机记录*</strong></label>
+                                <input type="text" class="form-control" id="hostRecord" placeholder="请输入主机记录" required>
+                                <div class="invalid-feedback">
+                                    不能为空
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="recordType" class="form-label"><strong>记录类型*</strong></label>
+                                <select class="form-select" id="recordType" required>
+                                    <option value="A">A</option>
+                                    <option value="AAAA">AAAA</option>
+                                    <option value="CNAME">CNAME</option>
+                                    <option value="MX">MX</option>
+                                    <option value="TXT">TXT</option>
+                                    <option value="NS">NS</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    不能为空
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="ttl" class="form-label"><strong>TTL</strong></label>
+                                <input type="number" class="form-control" id="ttl" placeholder="请输入 TTL">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="recordValue" class="form-label"><strong>记录值*</strong></label>
+                                <input type="text" class="form-control" id="recordValue" placeholder="请输入记录值" required>
+                                <div class="invalid-feedback">
+                                    不能为空
+                                </div>
+                            </div>
+                        </div>
+                        <div id="other">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="weight" class="form-label"><strong>权重</strong></label>
+                                    <input type="number" class="form-control" id="weight" placeholder="请输入权重">
+                                </div>
+                                <div class="col-md-6">
+
+                                    <label for="lineType" class="form-label"><strong>线路类型*</strong></label>
+                                    <select class="form-select" id="lineType" required>
+                                        <option value="默认">默认</option>
+                                        <option value="电信">电信</option>
+                                        <option value="联通">联通</option>
+                                        <option value="移动">移动</option>
+                                        <option value="境外">境外</option>
+                                        <option value="境内">境内</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        不能为空
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="remark" class="form-label"><strong>备注</strong></label>
+                                <textarea class="form-control" id="remark" rows="3" placeholder="请输入备注"></textarea>
+                            </div>
+                            <div class="col-md-6" id="other1">
+                                <label for="status" class="form-label"><strong>状态*</strong></label>
+                                <select class="form-select" id="status" required>
+                                    <option value="ENABLE">启用</option>
+                                    <option value="DISABLE">禁用</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    不能为空
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="domain" class="form-label"><strong>主域名</strong></label>
+                            <input type="text" class="form-control" id="domain" readonly>
+                        </div>
+                        <div class="mb-3" id="cf">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="cfProxy">
+                                <label class="form-check-label">代理</label>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="btn_modal_save_dns_edit">保存</button>
+                            <button type="button" class="btn btn-primary" id="btn_modal_creat_record">保存</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!--页面loading end-->
     <div class="lyear-layout-web">
         <div class="lyear-layout-container">
@@ -68,6 +198,9 @@
     <!--引入table插件-->
     <script src="js/bootstrap-table/bootstrap-table.js"></script>
     <script src="js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="js/jquery-confirm/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" src="js/lyear-loading.js"></script>
     <script type="text/javascript">
         $(function () {
             if ($.cookie("Authorization") != null) {
@@ -79,7 +212,7 @@
                         action: 'checklogin',
                     },
                     success: function (response) {
-                        if (response['status'] == 'error') {
+                        if (response['status'] == 'logout') {
                             location.href = 'login.html';
                         };
                     }
@@ -90,27 +223,445 @@
             $(".headerpage").load('header.html');
             $(".menupage").load('menu.html');
         });
-        var columns=[{
-            field:"ID",
-            title:"ID" 
-        },{
-            field:"domain",
-            title:"域名"
-        },{
-            field:"location",
-            title:"DNS归属"
-        },{
-            field:"number",
-            title:"解析条数"
-        },{
-            field:"status",
-            title:"状态"
-        },{
-            field:"operate",
-            title:"操作"
+
+        var columns_domain = [{
+            field: "domain",
+            title: "域名"
+        }, {
+            field: "servername",
+            title: "服务商名称"
+        }, {
+            field: "location",
+            title: "DNS归属"
+        }, {
+            field: "recNumber",
+            title: "解析条数"
+        }, {
+            field: "zoneid",
+            title: "区域id（Cloudflare）"
+        }, {
+            field: "status",
+            title: "状态",
+            formatter: function (value, row, index) {
+                if (value == 0) {
+                    return '<span class="badge bg-danger">异常</span>';
+                } else if (value == 1) {
+                    return '<span class="badge bg-success">正常</span>';
+                } else {
+                    return '<span class="badge bg-secondary">未知</span>';
+                }
+            }
+        }, {
+            field: "operate",
+            title: "操作",
+            formatter: function () {
+                return '<a  class="btn btn-sm btn-default dns-btn" title="解析记录" data-bs-toggle="tooltip"><i class="mdi mdi-ab-testing"></i></a>' +
+                    '<a  class="btn btn-sm btn-default del-btn" title="删除" data-bs-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>';
+            },
+            events: {
+                'click .edit-btn': function (event, value, row, index) {
+                    event.stopPropagation();
+                    edit_domain_modal(row);
+                },
+                'click .del-btn': function (event, value, row, index) {
+                    event.stopPropagation();
+                    del_domain(row);
+                },
+                'click .dns-btn': function (event, value, row, index) {
+                    event.stopPropagation();
+                    dns_records(row);
+                }
+            }
         }];
+
+        var columns_dns = [
+            {
+                field: "RecordId",
+                title: "解析记录id"
+            }, {
+                field: "Name",
+                title: "主机记录"
+            }, {
+                field: "Type",
+                title: "记录类型"
+            }, {
+                field: "Line",
+                title: "线路类型"
+            }, {
+                field: "Value",
+                title: "记录值"
+            }, {
+                field: "proxied",
+                title: "代理",
+                formatter: function (value, row, index) {
+                    if (!value) {
+                        return '<span class="badge bg-danger">暂停</span>';
+                    } else if (value) {
+                        return '<span class="badge bg-success">启用</span>';
+                    } else {
+                        return '<span class="badge bg-secondary">未知</span>';
+                    }
+                }
+            }, {
+                field: "Weight",
+                title: "权重"
+            }, {
+                field: "TTL",
+                title: "TTL",
+                formatter: function (value) {
+                    if (value == 1) {
+                        return "1（自动）";
+                    } else {
+                        return value;
+                    }
+                }
+            }, {
+                field: "Remark",
+                title: "备注"
+            }, {
+                field: "Status",
+                title: "状态",
+                formatter: function (value, row, index) {
+                    if (value == 0 || value == "DISABLE") {
+                        return '<span class="badge bg-danger">暂停</span>';
+                    } else if (value == 1 || value == "ENABLE") {
+                        return '<span class="badge bg-success">启用</span>';
+                    } else {
+                        return '<span class="badge bg-secondary">未知</span>';
+                    }
+                }
+            }, {
+                field: "UpdatedOn",
+                title: "最后操作时间"
+            }, {
+                field: "operate",
+                title: "操作",
+                formatter: function () {
+                    return '<a  class="btn btn-sm btn-default editdns-btn" title="编辑" data-bs-toggle="tooltip"><i class="mdi mdi-circle-edit-outline"></i></a>' +
+                        '<a  class="btn btn-sm btn-default deldns-btn" title="删除" data-bs-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>';
+                },
+                events: {
+                    'click .editdns-btn': function (event1, value1, row1, index1) {
+                        event1.stopPropagation();
+                        edit_dns(row1);
+                    },
+                    'click .deldns-btn': function (event2, value2, row2, index2) {
+                        event2.stopPropagation();
+                        del_dns(row2);
+                    },
+                }
+            }];
+
+        function edit_dns(row1) {
+            editDnsModal = new bootstrap.Modal(document.getElementById('modal_edit_dns'));
+            document.getElementById('btn_modal_creat_record').style.display = 'none';
+            document.getElementById('hostRecord').value = row1.Name;
+            document.getElementById('recordType').value = row1.Type;
+            document.getElementById('recordValue').value = row1.Value;
+            document.getElementById('ttl').value = row1.TTL;
+            document.getElementById('domain').value = row1.Domain;
+            document.getElementById('remark').value = row1.Remark;
+            globalRecordId = row1.RecordId;
+            if (globalLocation != "Cloudflare") {
+                //设置默认值
+                document.getElementById('lineType').value = row1.Line;
+                document.getElementById('weight').value = row1.Weight;
+                document.getElementById('status').value = row1.Status;
+                document.getElementById('cfProxy').closest('.mb-3').style.display = 'none';
+            } else {
+                document.getElementById('other').style.display = 'none';
+                document.getElementById('other1').style.display = 'none';
+                if (row1.proxied) {
+                    document.getElementById('cfProxy').checked = true;
+                }
+            }
+            editDnsModal.show();
+        }
+
+        function del_dns(row2) {
+            var ll = $('body').lyearloading({
+                opacity: 0.5,              // 遮罩层透明度，为0时不透明
+                backgroundColor: '#ccc',           // 遮罩层背景色
+                imgUrl: '',               // 使用图片时的图片地址
+                textColorClass: 'text-success',   // 文本文字的颜色
+                spinnerColorClass: 'text-success',   // 加载动画的颜色(不使用图片时有效)
+                spinnerSize: 'lg',             // 加载动画的大小(不使用图片时有效，示例：sm/nm/md/lg，也可自定义大小，如：25px)
+                spinnerText: '加载中...',       // 文本文字    
+                zindex: 9999,             // 元素的堆叠顺序值
+            });
+            $.ajax({
+                url: "api/ajax.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    action: "deletRecord",
+                    domain: globalDomain,
+                    recordid: row2.RecordId,
+                    zoneid: globalZoneid
+                },
+                success: function (response) {
+                    ll.destroy();
+                    if (response.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
+                    } else if (response.status == 'server_error') {
+                        showNotify('删除失败：' + response.message, 'danger', 5000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    } else if (response.status == 'success') {
+                        showNotify('删除成功', 'success', 3000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                        $('#dns-list').bootstrapTable('refresh');
+                    }
+                }
+            })
+        }
+
+        document.getElementById('btn_creat_record').addEventListener('click', function () {
+            creatRecordModal = new bootstrap.Modal(document.getElementById('modal_edit_dns'));
+            document.getElementById('btn_modal_save_dns_edit').style.display = 'none';
+            document.getElementById('domain').value = globalDomain;
+            if (globalLocation != "Cloudflare") {
+                document.getElementById('cfProxy').closest('.mb-3').style.display = 'none';
+            } else {
+                document.getElementById('other').style.display = 'none';
+                document.getElementById('other1').style.display = 'none';
+            }
+            creatRecordModal.show();
+        })
+
+        document.getElementById('btn_modal_creat_record').addEventListener('click', function () {
+            var ll = $('#modal_edit_dns').lyearloading({
+                opacity: 0.5,              // 遮罩层透明度，为0时不透明
+                backgroundColor: '#ccc',           // 遮罩层背景色
+                imgUrl: '',               // 使用图片时的图片地址
+                textColorClass: 'text-success',   // 文本文字的颜色
+                spinnerColorClass: 'text-success',   // 加载动画的颜色(不使用图片时有效)
+                spinnerSize: 'lg',             // 加载动画的大小(不使用图片时有效，示例：sm/nm/md/lg，也可自定义大小，如：25px)
+                spinnerText: '加载中...',       // 文本文字    
+                zindex: 9999,             // 元素的堆叠顺序值
+            });
+            console.log('礼品');
+            var domain = document.getElementById('domain').value;
+            var hostRecord = document.getElementById('hostRecord').value;
+            var recordType = document.getElementById('recordType').value;
+            var lineType = document.getElementById('lineType').value;
+            var recordValue = document.getElementById('recordValue').value;
+            var weight = document.getElementById('weight').value;
+            var ttl = document.getElementById('ttl').value;
+            var remark = document.getElementById('remark').value;
+            var status = document.getElementById('status').value;
+            var proxy = document.getElementById('cfProxy').checked;
+            $.ajax({
+                url: "api/ajax.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    domain: domain,
+                    hostRecord: hostRecord,
+                    recordType: recordType,
+                    lineType: lineType,
+                    recordValue: recordValue,
+                    weight: weight,
+                    ttl: ttl,
+                    remark: remark,
+                    status: status,
+                    proxy: proxy,
+                    action: "creatRecord",
+                    zoneid: globalZoneid,
+                },
+                success: function (response) {
+                    ll.destroy();
+                    if (response.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
+                    } else if (response.status == 'server_error') {
+                        showNotify('保存失败：' + response.message, 'danger', 5000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    } else if (response.status == "xxs") {
+                        showNotify('保存失败' + response.message, 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    } else if (response.status == 'success') {
+                        showNotify('保存成功', 'success', 3000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                        creatRecordModal.hide();
+                        $('#dns-list').bootstrapTable('refresh');
+                    }
+                }
+            })
+
+        })
+
+        $('#modal_edit_dns').on('hidden.bs.modal', function (e) {
+            document.getElementById('edit_dns_form').reset();
+            delete globalRecordId;
+            ids = ['other', 'cf', 'other1', 'btn_modal_save_dns_edit', 'btn_modal_creat_record'];
+            ids.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'block';
+                }
+            })
+        });
+
+        document.getElementById('btn_modal_save_dns_edit').addEventListener('click', function () {
+            var ll = $('#modal_edit_dns').lyearloading({
+                opacity: 0.5,              // 遮罩层透明度，为0时不透明
+                backgroundColor: '#ccc',           // 遮罩层背景色
+                imgUrl: '',               // 使用图片时的图片地址
+                textColorClass: 'text-success',   // 文本文字的颜色
+                spinnerColorClass: 'text-success',   // 加载动画的颜色(不使用图片时有效)
+                spinnerSize: 'lg',             // 加载动画的大小(不使用图片时有效，示例：sm/nm/md/lg，也可自定义大小，如：25px)
+                spinnerText: '加载中...',       // 文本文字    
+                zindex: 9999,             // 元素的堆叠顺序值
+            });
+            var domain = document.getElementById('domain').value;
+            var hostRecord = document.getElementById('hostRecord').value;
+            var recordType = document.getElementById('recordType').value;
+            var lineType = document.getElementById('lineType').value;
+            var recordValue = document.getElementById('recordValue').value;
+            var weight = document.getElementById('weight').value;
+            var ttl = document.getElementById('ttl').value;
+            var remark = document.getElementById('remark').value;
+            var status = document.getElementById('status').value;
+            var proxy = document.getElementById('cfProxy').checked;
+            $.ajax({
+                url: "api/ajax.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    domain: domain,
+                    hostRecord: hostRecord,
+                    recordType: recordType,
+                    lineType: lineType,
+                    recordValue: recordValue,
+                    weight: weight,
+                    ttl: ttl,
+                    remark: remark,
+                    status: status,
+                    proxy: proxy,
+                    action: "updateRecord",
+                    recordid: globalRecordId,
+                    zoneid: globalZoneid,
+                },
+                success: function (response) {
+                    ll.destroy();
+                    if (response.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
+                    } else if (response.status == 'server_error') {
+                        showNotify('保存失败：' + response.message, 'danger', 5000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    } else if (response.status == "xxs") {
+                        showNotify('保存失败' + response.message, 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    } else if (response.status == 'success') {
+                        showNotify('修改成功', 'success', 3000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                        editDnsModal.hide();
+                        $('#dns-list').bootstrapTable('refresh');
+                    }
+                }
+            })
+        })
+
+        function dns_records(row) {
+            var myModal = new bootstrap.Modal(document.getElementById('modal_dns_records'));
+            globalLocation = row.location;
+            globalServername = row.servername;
+            globalZoneid = row.zoneid;
+            globalDomain = row.domain;
+            myModal.show();
+            $('#dns-list').bootstrapTable({
+                columns: columns_dns,
+                url: "/api/ajax.php",
+                dataType: "json",
+                method: "POST",
+                sidePagination: 'server',
+                pagination: true,
+                pageNumber: 1,
+                pageSize: 10,
+                contentType: "application/x-www-form-urlencoded",
+                pageList: "[10, 20, 50, 200]",
+                paginationHAlign: "left",
+                paginationDetailHAlign: "right",
+                queryParams: function (params) {
+                    params.action = "getDomainDnsList";
+                    params.domain = row.domain;
+                    params.location = row.location;
+                    params.servername = row.servername;
+                    params.zoneid = row.zoneid;
+                    return params;
+                },
+                onLoadSuccess: function (data) {
+                    if (data.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 1500, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
+                    } else {
+                        //$("[data-bs-toggle='tooltip']").tooltip();
+                        $('#dns-list').bootstrapTable('hideColumn', 'RecordId');
+                        if (row.location == "Cloudflare") {
+                            $('#dns-list').bootstrapTable('hideColumn', 'Line');
+                            $('#dns-list').bootstrapTable('hideColumn', 'Weight');
+                            $('#dns-list').bootstrapTable('hideColumn', 'Status');
+                        } else {
+                            $('#dns-list').bootstrapTable('hideColumn', 'proxied');
+                        }
+                    }
+                }
+            })
+        }
+
+        $('#modal_dns_records').on('hide.bs.modal', function (e) {
+            $('#dns-list').bootstrapTable('destroy');
+            delete globalLocation;
+            delete globalServername;
+            delete globalZoneid;
+            delete globalDomain;
+        });
+
+
+        function del_domain(row) {
+            var l = $('body').lyearloading({
+                opacity: 0.5,              // 遮罩层透明度，为0时不透明
+                backgroundColor: '#ccc',           // 遮罩层背景色
+                imgUrl: '',               // 使用图片时的图片地址
+                textColorClass: 'text-success',   // 文本文字的颜色
+                spinnerColorClass: 'text-success',   // 加载动画的颜色(不使用图片时有效)
+                spinnerSize: 'lg',             // 加载动画的大小(不使用图片时有效，示例：sm/nm/md/lg，也可自定义大小，如：25px)
+                spinnerText: '加载中...',       // 文本文字    
+                zindex: 9999,             // 元素的堆叠顺序值
+            });
+
+            $.ajax({
+                url: "api/ajax.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    action: "del_domain",
+                    sql_id: row.id
+                },
+                success: function (response) {
+                    l.destroy();
+                    if (response.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
+                    } else if (response == 1) {
+                        showNotify('删除成功', 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center', 'list_domain.html');
+                    } else {
+                        showNotify('删除失败', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    }
+                }
+            })
+
+        };
+
         $('#domain-list').bootstrapTable({
-            columns: columns,
+            columns: columns_domain,
+            url: "/api/ajax.php",
+            dataType: "json",
+            method: "POST",
+            sidePagination: 'server',
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10,
+            contentType: "application/x-www-form-urlencoded",
+            pageList: "[10, 20, 50, 200]",
+            paginationHAlign: "left",
+            paginationDetailHAlign: "right",
+            queryParams: function (params) {
+                params.action = "getDomainList";
+                return params;
+            },
+            onLoadSuccess: function (data) {
+                //$("[data-bs-toggle='tooltip']").tooltip();
+            }
         })
     </script>
 </body>

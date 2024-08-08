@@ -26,6 +26,7 @@ if (checkCaptcha($usercode)) {
         $jwt = NewJwt($username,  $last_login_time);
         // 登录成功
         setcookie("Authorization", $jwt, $last_login_time + 21600, "/");
+        setcookie("username", $username, $last_login_time + 21600, "/");
         $response = array('success' => true, 'message' => '登录成功！');
     } else {
         // 登录失败

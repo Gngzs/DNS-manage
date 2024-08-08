@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="js/bootstrap-table/bootstrap-table.min.css">
 </head>
 
+
 <body>
     <!--页面loading-->
     <div id="lyear-preloader" class="loading">
@@ -30,65 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_edit_server" tabindex="-1" data-bs-backdrop="static"
-        aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="exampleModalLiveLabel">编辑服务商</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3 row">
-                            <label for="modal_sql_id" class="col-sm-2 col-form-label">数据库id</label>
-                            <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="modal_sql_id">
-                            </div>
-                        </div>
 
-                        <!-- 名称输入框 -->
-                        <div class="mb-3">
-                            <label for="inputName" class="form-label">名称</label>
-                            <input type="text" required class="form-control" id="inputName" placeholder="请输入名称">
-                        </div>
-
-                        <!-- 服务商下拉选择 -->
-                        <div class="mb-3">
-                            <label for="selectProvider" class="form-label">服务商</label>
-                            <select class="form-select" id="selectProvider" required>
-                                <option selected>选择服务商</option>
-                                <option value="腾讯云">腾讯云</option>
-                                <option value="阿里云">阿里云</option>
-                                <option value="Cloudflare">Cloudflare</option>
-                            </select>
-                        </div>
-
-                        <!-- secretid输入框 -->
-                        <div class="mb-3">
-                            <label for="inputSecretId" class="form-label">SecretId</label>
-                            <input type="text" class="form-control" id="inputSecretId" placeholder="请输入SecretId"
-                                required>
-                        </div>
-
-                        <!-- secretkey输入框 -->
-                        <div class="mb-3">
-                            <label for="inputSecretKey" class="form-label">SecretKey</label>
-                            <input type="text" class="form-control" id="inputSecretKey" placeholder="请输入SecretKey"
-                                required>
-                        </div>
-                        <p>服务商若为cloudflare，请保持secretid和key均为用户 API 令牌</p>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="btn_modal_save_edit">保存修改</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <!--页面loading end-->
     <div class="lyear-layout-web">
         <div class="lyear-layout-container">
@@ -100,6 +43,68 @@
             <!--End 头部信息-->
             <!--页面主要内容-->
             <main class="lyear-layout-content">
+                <div class="modal fade" id="modal_edit_server" tabindex="-1" data-bs-backdrop="static"
+                    aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h6 class="modal-title" id="exampleModalLiveLabel">编辑服务商</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3 row">
+                                        <label for="modal_sql_id" class="col-sm-2 col-form-label">数据库id</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" readonly class="form-control-plaintext"
+                                                id="modal_sql_id">
+                                        </div>
+                                    </div>
+
+                                    <!-- 名称输入框 -->
+                                    <div class="mb-3">
+                                        <label for="inputName" class="form-label">名称</label>
+                                        <input type="text" required class="form-control" id="inputName"
+                                            placeholder="请输入名称">
+                                    </div>
+
+                                    <!-- 服务商下拉选择 -->
+                                    <div class="mb-3">
+                                        <label for="selectProvider" class="form-label">服务商</label>
+                                        <select class="form-select" id="selectProvider" required>
+                                            <option selected>选择服务商</option>
+                                            <option value="腾讯云">腾讯云</option>
+                                            <option value="阿里云">阿里云</option>
+                                            <option value="Cloudflare">Cloudflare</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- secretid输入框 -->
+                                    <div class="mb-3">
+                                        <label for="inputSecretId" class="form-label">SecretId</label>
+                                        <input type="text" class="form-control" id="inputSecretId"
+                                            placeholder="请输入SecretId" required>
+                                    </div>
+
+                                    <!-- secretkey输入框 -->
+                                    <div class="mb-3">
+                                        <label for="inputSecretKey" class="form-label">SecretKey</label>
+                                        <input type="text" class="form-control" id="inputSecretKey"
+                                            placeholder="请输入SecretKey" required>
+                                    </div>
+                                    <p>如为Cloudflare，secretid为账户邮箱，secretkey为账户密钥</p>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="btn_modal_save_edit">保存修改</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="container-fluid">
 
                     <div class="row">
@@ -112,7 +117,7 @@
 
                                 <div class="card-body">
 
-                                    <table id="domain-list"></table>
+                                    <table id="server-list"></table>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +154,7 @@
                         action: 'checklogin',
                     },
                     success: function (response) {
-                        if (response['status'] == 'error') {
+                        if (response['status'] == 'logout') {
                             location.href = 'login.html';
                         };
                     }
@@ -242,10 +247,14 @@
                     secretkey: test.secretkey,
                 },
                 success: function (response) {
-                    if (response['status'] == 'server_error') {
-                        document.getElementById('check' + number).textContent = '连接失败';
+                    if (response['status'] == 'logout') {
+                        showNotify('登录已失效', 'danger', 1500, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
                     } else {
-                        document.getElementById('check' + number).textContent = '连接成功';
+                        if (response['status'] == 'server_error') {
+                            document.getElementById('check' + number).textContent = '连接失败';
+                        } else {
+                            document.getElementById('check' + number).textContent = '连接成功';
+                        }
                     };
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -281,7 +290,7 @@
                 success: function (response) {
                     l.hide();
                     if (response.status == 'error') {
-                        location.href = 'login.html';
+                        showNotify('登录已失效', 'danger', 1500, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
                     } else if (response == 1) {
                         showNotify('删除成功', 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center', 'list_server.html');
                     } else {
@@ -314,8 +323,8 @@
                 },
                 success: function (response) {
                     l.hide();
-                    if (response.status == 'error') {
-                        location.href = 'login.html';
+                    if (response.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 1500, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
                     } else if (response == 1) {
                         showNotify('修改成功', 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center', 'list_server.html');
                     } else {
@@ -326,7 +335,7 @@
         }
 
         function edit_server_modal(row) {
-            var myModal = new bootstrap.Modal(document.getElementById('modal_edit_server'));
+            var myModal = new bootstrap.Modal(document.getElementById('modal_edit_server'),);
             // 设置输入框的默认值
             document.getElementById('modal_sql_id').value = row.id;
             document.getElementById('inputName').value = row.servername;
@@ -374,11 +383,14 @@
                 },
                 success: function (response) {
                     l.hide();
-                    if (response.status == 'error') {
-                        location.href = 'login.html';
+                    if (response.status == 'logout') {
+                        showNotify('登录已失效', 'danger', 1500, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
                     } else if (typeof response == 'number') {
                         showNotify('修改成功', 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center', 'list_server.html');
-                    } else {
+                    } else if(response.status=="xxs"){
+                        showNotify('保存失败'+response.message, 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    }
+                    else {
                         showNotify('保存失败', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
                     }
                 }
@@ -386,7 +398,7 @@
         });
 
 
-        $('#domain-list').bootstrapTable({
+        $('#server-list').bootstrapTable({
             columns: columns,
             url: "/api/ajax.php",
             dataType: "json",
@@ -405,7 +417,7 @@
             },
             onLoadSuccess: function (data) {
                 //$("[data-bs-toggle='tooltip']").tooltip();
-                $('#domain-list').bootstrapTable('hideColumn', 'sqlid');
+                $('#server-list').bootstrapTable('hideColumn', 'sqlid');
             }
         });
 

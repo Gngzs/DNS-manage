@@ -31,6 +31,7 @@ use AlibabaCloud\SDK\Alidns\V20150109\Models\DeleteDomainGroupRequest;
 
 
 use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
+use AlibabaCloud\SDK\Alidns\V20150109\Models\UpdateDomainRecordRemarkRequest;
 
 /**
  * Author: 东南dnf
@@ -46,7 +47,7 @@ class api
      * @param string $regionId
      * @return Alidns Client
      */
-    public static function Init($accessKeyId, $accessKeySecret, $endpoint="dns.aliyuncs.com")
+    public static function Init($accessKeyId, $accessKeySecret, $endpoint = "dns.aliyuncs.com")
     {
         $config = new Config([]);
         // 传AccessKey ID入config
@@ -67,14 +68,14 @@ class api
         $req = new DescribeDomainsRequest([]);
         $runtime = new RuntimeOptions([]);
         try {
-            $resp = $client->describeDomainsWithOptions($req,$runtime);
+            $resp = $client->describeDomainsWithOptions($req, $runtime);
             return json_decode(Utils::toJSONString(Tea::merge($resp)));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
 
-            return array("status"=>"server_error" ,"message"=>$error->message);
+            return array("status" => "server_error", "message" => $error->message);
         }
     }
 
@@ -105,18 +106,21 @@ class api
      * @param string $domainName      域名名称
      * @return void
      */
-    public static function DescribeDomainRecords($client, $domainName)
+    public static function DescribeDomainRecords($client, $domainName, $offset, $limit)
     {
-        $req = new DescribeDomainRecordsRequest([]);
-        $req->domainName = $domainName;
+        $req = new DescribeDomainRecordsRequest([
+            "domainName" => $domainName,
+            "pageNumber" => $offset / 10 + 1,
+            "pageSize" => $limit
+        ]);
         try {
             $resp = $client->describeDomainRecords($req);
-            return Utils::toJSONString(Tea::merge($resp));
+            return array("status" => "success", "message" => json_decode(Utils::toJSONString(Tea::merge($resp)), true));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return $error->message;
+            return array("status" => "server_error", "message" => $error->message);
         }
     }
 
@@ -175,12 +179,12 @@ class api
         $req->domainName = $domainName;
         try {
             $resp = $client->describeDomainInfo($req);
-            return Utils::toJSONString(Tea::merge($resp));
+            return json_decode(Utils::toJSONString(Tea::merge($resp)));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return $error->message;
+            return array("status" => "server_error", "message" => $error->message);;
         }
     }
 
@@ -193,21 +197,23 @@ class api
      * @param string $Value
      * @return void
      */
-    public static function AddDomainRecord($client, $domainName, $RR, $recordType, $Value)
+    public static function AddDomainRecord($client, $domainName, $RR, $recordType, $Value, $ttl, $line)
     {
         $req = new AddDomainRecordRequest([]);
         $req->domainName = $domainName;
         $req->RR = $RR;
         $req->type = $recordType;
         $req->value = $Value;
+        $req->TTL = $ttl;
+        $req->line = $line;
         try {
             $resp = $client->addDomainRecord($req);
-            return Utils::toJSONString(Tea::merge($resp));
+            return array("status" => "success", "message" => json_decode(Utils::toJSONString(Tea::merge($resp)), true));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return $error->message;
+            return array("status" => "server_error", "message" => $error->message, "code" => $error->code);
         }
     }
 
@@ -220,21 +226,23 @@ class api
      * @param string $Value
      * @return void
      */
-    public static function UpdateDomainRecord($client, $recordId, $RR, $recordType, $Value)
+    public static function UpdateDomainRecord($client, $recordId, $RR, $recordType, $Value, $ttl, $line)
     {
         $req = new UpdateDomainRecordRequest([]);
         $req->recordId = $recordId;
         $req->RR = $RR;
         $req->type = $recordType;
         $req->value = $Value;
+        $req->TTL = (int)$ttl;
+        $req->line = $line;
         try {
             $resp = $client->updateDomainRecord($req);
-            return Utils::toJSONString(Tea::merge($resp));
+            return array("status" => "success", "message" => json_decode(Utils::toJSONString(Tea::merge($resp)), true));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return $error->message;
+            return array("status" => "server_error", "message" => $error->message, "code" => $error->code);
         }
     }
 
@@ -252,12 +260,35 @@ class api
         $req->status = $status;
         try {
             $resp = $client->setDomainRecordStatus($req);
-            return Utils::toJSONString(Tea::merge($resp));
+            return array("status" => "success", "message" => json_decode(Utils::toJSONString(Tea::merge($resp)), true));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return $error->message;
+            return array("status" => "server_error", "message" => $error->message, "code" => $error->code);
+        }
+    }
+
+    /**
+     * UpdateDomainRecordRemark 修改解析记录备注
+     * @param Alidns $client    客户端
+     * @param string $recordId  解析记录ID
+     * @param string $remark    备注
+     * @return void
+     */
+    public static function UpdateDomainRecordRemark($client, $recordId, $remark)
+    {
+        $req = new UpdateDomainRecordRemarkRequest([]);
+        $req->recordId = $recordId;
+        $req->remark = $remark;
+        try {
+            $resp = $client->updateDomainRecordRemark($req);
+            return array("status" => "success", "message" => json_decode(Utils::toJSONString(Tea::merge($resp)), true));
+        } catch (Exception $error) {
+            if (!($error instanceof TeaError)) {
+                $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
+            }
+            return array("status" => "server_error", "message" => $error->message, "code" => $error->code);
         }
     }
 
@@ -273,12 +304,12 @@ class api
         $req->recordId = $recordId;
         try {
             $resp = $client->deleteDomainRecord($req);
-            return Utils::toJSONString(Tea::merge($resp));
+            return array("status" => "success", "message" => json_decode(Utils::toJSONString(Tea::merge($resp)), true));
         } catch (Exception $error) {
             if (!($error instanceof TeaError)) {
                 $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return $error->message;
+            return array("status" => "server_error", "message" => $error->message, "code" => $error->code);
         }
     }
 
@@ -412,4 +443,3 @@ class api
         self::DeleteDomainGroup($client, $groupId);
     }
 }
-

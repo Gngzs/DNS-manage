@@ -292,7 +292,7 @@
                         action: 'checklogin',
                     },
                     success: function (response) {
-                        if (response['status'] == 'error') {
+                        if (response['status'] == 'logout') {
                             location.href = 'login.html';
                         };
                     }
