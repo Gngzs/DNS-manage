@@ -11,6 +11,7 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'd767e4fc2dc52fe66584ab8c6684783e' => __DIR__ . '/..' . '/adbario/php-dot-notation/src/helpers.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -18,14 +19,21 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
         array (
             'TencentCloud\\' => 13,
         ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+        ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
+            'Psr\\Clock\\' => 10,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
         'O' => 
         array (
             'OneSm\\' => 6,
+            'OTPHP\\' => 6,
         ),
         'G' => 
         array (
@@ -33,10 +41,19 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+        'E' => 
+        array (
+            'Endroid\\QrCode\\' => 15,
+        ),
         'D' => 
         array (
             'Darabonba\\OpenApi\\' => 18,
             'Darabonba\\GatewaySpi\\' => 21,
+            'DASPRiD\\Enum\\' => 13,
+        ),
+        'B' => 
+        array (
+            'BaconQrCode\\' => 12,
         ),
         'A' => 
         array (
@@ -57,6 +74,10 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
             0 => __DIR__ . '/..' . '/tencentcloud/common/src/TencentCloud',
             1 => __DIR__ . '/..' . '/tencentcloud/dnspod/src/TencentCloud',
         ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
@@ -66,9 +87,21 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
+        ),
+        'ParagonIE\\ConstantTime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
+        ),
         'OneSm\\' => 
         array (
             0 => __DIR__ . '/..' . '/lizhichao/one-sm/src',
+        ),
+        'OTPHP\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spomky-labs/otphp/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -82,6 +115,10 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'Endroid\\QrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/qr-code/src',
+        ),
         'Darabonba\\OpenApi\\' => 
         array (
             0 => __DIR__ . '/..' . '/alibabacloud/darabonba-openapi/src',
@@ -89,6 +126,14 @@ class ComposerStaticInite2f0d83bde31b4b8b4c60d6cec529586
         'Darabonba\\GatewaySpi\\' => 
         array (
             0 => __DIR__ . '/..' . '/alibabacloud/gateway-spi/src',
+        ),
+        'DASPRiD\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dasprid/enum/src',
+        ),
+        'BaconQrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
         ),
         'AlibabaCloud\\Tea\\XML\\' => 
         array (

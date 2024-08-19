@@ -1,6 +1,8 @@
 {
     "require": {
         "alibabacloud/alidns-20150109": "3.1.0",
-        "tencentcloud/dnspod": "^3.0"
+        "tencentcloud/dnspod": "^3.0",
+        "endroid/qr-code": "^5.0",
+        "spomky-labs/otphp": "^11.3"
     }
 }

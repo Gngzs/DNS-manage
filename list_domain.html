@@ -437,7 +437,7 @@
                 spinnerText: '加载中...',       // 文本文字    
                 zindex: 9999,             // 元素的堆叠顺序值
             });
-            console.log('礼品');
+            //console.log('礼品');
             var domain = document.getElementById('domain').value;
             var hostRecord = document.getElementById('hostRecord').value;
             var recordType = document.getElementById('recordType').value;
@@ -631,9 +631,9 @@
                 success: function (response) {
                     l.destroy();
                     if (response.status == 'logout') {
-                        showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "login.html");
+                        showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "/login.html");
                     } else if (response == 1) {
-                        showNotify('删除成功', 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center', 'list_domain.html');
+                        showNotify('删除成功', 'success', 1500, 'mdi mdi-emoticon-happy', 'top', 'center', '/list_domain.html');
                     } else {
                         showNotify('删除失败', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
                     }

@@ -52,35 +52,51 @@
         <div class="text-center mb-3">
             <a href="index.html"> <img alt="light year admin" src="images/logo-sidebar.png"> </a>
         </div>
-
-        <form action="javascript:void(0);" id="loginForm" class="signin-form needs-validation" novalidate>
-            <div class="mb-3 has-feedback">
-                <span class="mdi mdi-account" aria-hidden="true"></span>
-                <input type="text" class="form-control" id="username" placeholder="用户名" required>
-            </div>
-
-            <div class="mb-3 has-feedback">
-                <span class="mdi mdi-lock" aria-hidden="true"></span>
-                <input type="password" class="form-control" id="password" placeholder="密码" required>
-            </div>
-
-            <div class="mb-3 has-feedback row">
-                <div class="col-7">
-                    <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>
-                    <input type="text" name="captcha" class="form-control" id="code" placeholder="验证码" required>
+        <div id="login1">
+            <form action="javascript:void(0);" id="loginForm" class="signin-form needs-validation" novalidate>
+                <div class="mb-3 has-feedback">
+                    <span class="mdi mdi-account" aria-hidden="true"></span>
+                    <input type="text" class="form-control" id="username" placeholder="用户名" required>
                 </div>
-                <div class="col-5 text-right">
-                    <img src="api/ajax.php?action=newCaptcha" class="pull-right" id="captcha" style="cursor: pointer;"
-                        onclick="this.src='api/ajax.php?action=newCaptcha&r='+Math.random();" title="点击刷新"
-                        alt="captcha">
+
+                <div class="mb-3 has-feedback">
+                    <span class="mdi mdi-lock" aria-hidden="true"></span>
+                    <input type="password" class="form-control" id="password" placeholder="密码" required>
                 </div>
-            </div>
+
+                <div class="mb-3 has-feedback row">
+                    <div class="col-7">
+                        <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>
+                        <input type="text" name="captcha" class="form-control" id="code" placeholder="验证码" required>
+                    </div>
+                    <div class="col-5 text-right">
+                        <img src="api/ajax.php?action=newCaptcha" class="pull-right" id="captcha"
+                            style="cursor: pointer;"
+                            onclick="this.src='api/ajax.php?action=newCaptcha&r='+Math.random();" title="点击刷新"
+                            alt="captcha">
+                    </div>
+                </div>
 
 
-            <div class="mb-3 d-grid">
-                <button class="btn btn-primary" type="submit">立即登录</button>
-            </div>
-        </form>
+                <div class="mb-3 d-grid">
+                    <button class="btn btn-primary" type="submit">立即登录</button>
+                </div>
+            </form>
+        </div>
+        <div id="login2" style="display:none">
+            <form id="totp" class="signin-form needs-validation" novalidate>
+                <div class="text-center mb-3">
+                    <h3>二步验证码</h3>
+                </div>
+                <div class="mb-3 has-feedback">
+                    <span class="mdi mdi-lock" aria-hidden="true"></span>
+                    <input type="text" class="form-control" id="totp_code" placeholder="请输入二步验证码" required>
+                </div>
+                <div class="mb-3 d-grid">
+                    <button class="btn btn-primary" type="submit">立即登录</button>
+                </div>
+            </form>
+        </div>
 
         <p class="text-center text-muted mb-0">Copyright © 2022 <a target="_blank"
                 href="http://www.bixiaguangnian.com">笔下光年</a>. All right reserved</p>
@@ -128,11 +144,14 @@
                             try {
                                 var response = JSON.parse(this.responseText);
                                 //console.log("Response received: ", response);
-                                if (response.success) {
-                                    showNotify(response.message, 'success', 1500, 'mdi mdi-account-check', 'top', 'center', 'index.html');
-                                } else {
+                                if (response.success == true) {
+                                    showNotify(response.message, 'success', 1500, 'mdi mdi-account-check', 'top', 'center', "index.html");
+                                } else if (response.success == false) {
                                     document.getElementById("captcha").src = 'api/ajax.php?action=newCaptcha&r=' + Math.random();
                                     showNotify(response.message, 'danger', 5000, 'mdi mdi-account-alert', 'top', 'center');
+                                } else if (response.success == "2fa") {
+                                    document.getElementById("login1").style.display = "none";
+                                    document.getElementById("login2").style.display = "block";
                                 }
                             } catch (error) {
                                 $("button:submit").html('立即登录').attr("disabled", false);
@@ -156,6 +175,39 @@
                 alert('请填写用户名和密码');
             }
         };
+
+        document.getElementById("totp").onsubmit = function (event) {
+            if ($(this)[0].checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(this).addClass('was-validated');
+                return false;
+            }
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var totp_code = document.getElementById('totp_code').value;
+            if (username && password && totp_code) {
+                $.ajax({
+                    url: "api/totplogin.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "username": username,
+                        "password": password,
+                        "totpcode": totp_code
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            showNotify(response.message, 'success', 1500, 'mdi mdi-account-check', 'top', 'center', "index.html");
+                        } else {
+                            //document.getElementById("captcha").src = 'api/ajax.php?action=newCaptcha&r=' + Math.random();
+                            showNotify(response.message, 'danger', 5000, 'mdi mdi-account-alert', 'top', 'center');
+                        }
+                    }
+                })
+            }
+        }
 
     </script>
 </body>

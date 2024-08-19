@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+    <meta name="author" content="yinq">
+    <title>首页 - 光年(Light Year Admin V5)后台管理系统模板</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" type="text/css" href="/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/js/bootstrap-select/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+</head>
+
+<body>
+    <!--页面loading-->
+    <div id="lyear-preloader" class="loading">
+        <div class="ctn-preloader">
+            <div class="round_spinner">
+                <div class="spinner"></div>
+                <img src="/images/loading-logo.png" alt="">
+            </div>
+        </div>
+    </div>
+    <!--页面loading end-->
+    <div class="lyear-layout-web">
+        <div class="lyear-layout-container">
+            <!--左侧导航-->
+            <div class="menupage"></div>
+            <!--End 左侧导航-->
+
+            <!--头部信息-->
+            <div class="headerpage"></div>
+            <!--End 头部信息-->
+
+            <!--页面主要内容-->
+            <main class="lyear-layout-content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <header class="card-header">
+                            <div class="card-title">安全设置</div>
+                        </header>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class=" align-items-center">
+                                    <lable><strong>二步验证</strong></lable>
+                                    <div class="col-3">
+                                        <select id="totp_select" class="form-control selectpicker"
+                                            style="margin-left: 1rem;">
+                                            <option value="on">开启</option>
+                                            <option value="off">关闭</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal_totp_qrcode" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">绑定设备</h6>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <img id="totp_qrcode">
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p>使用二步验证器扫描二维码绑定设备</p>
+                                                <a href="https://support.microsoft.com/zh-cn/account-billing/%E4%B8%8B%E8%BD%BDmicrosoft-authenticator-351498fc-850a-45da-b7b6-27e523b8702a"
+                                                    class="link-primary">点击下载微软Microsoft Authenticator</a>
+                                                <input type="text" id="totp_code" class="form-control"
+                                                    placeholder="请输入验证器所显示的6位数字以绑定">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" id="btn_totp_qrcode">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                        aria-controls="offcanvasExample">
+                        使用链接的href
+                    </a>
+
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                        aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">《越绝书》</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="">
+                                以春秋末年至战国初期吴越争霸的历史事实为主干，上溯夏禹，下迄两汉，旁及诸侯列国，对这一历史时期吴越地区的汉民族政治、经济、军事、天文、地理、历法、语言等多有所涉及，被誉为“地方志鼻祖”。
+                            </div>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown">
+                                    古文典籍
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="#">《千字文》</a></li>
+                                    <li><a class="dropdown-item" href="#">《孟子》</a></li>
+                                    <li><a class="dropdown-item" href="#">《菜根谭》</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+            <!--End 页面主要内容-->
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/popper.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.cookie.min.js"></script>
+    <!--引入chart插件js-->
+    <script type="text/javascript" src="/js/chart.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-select/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-select/i18n/defaults-zh_CN.min.js"></script>
+    <script type="text/javascript" src="/js/main.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-notify.min.js"></script>
+    <script type="text/javascript">
+        let isProgrammaticChange = false;
+        let isProgrammaticClose = false;
+        $(function () {
+            if ($.cookie("Authorization") != null) {
+                $.ajax({
+                    url: '/api/ajax.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'checklogin',
+                    },
+                    success: function (response) {
+                        if (response['status'] == 'logout') {
+                            location.href = '/login.html';
+                        };
+                    }
+                });
+            } else {
+                location.href = "/login.html";
+            };
+            $(".headerpage").load('/header.html');
+            $(".menupage").load('/menu.html');
+            $.ajax({
+                url: '/api/ajax.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: "webConfig",
+                    username: $.cookie("username")
+                },
+                success: function (response) {
+                    switch (response.status) {
+                        case "success":
+                            if (response.message.totp == 1) {
+                                modifyOptions('totp_select', "on")
+                            } else if (response.message.totp == 0) {
+                                modifyOptions('totp_select', "off")
+                            }
+                            break;
+                        default:
+                            console.log(response.message);
+                            break;
+                    }
+
+                }
+            })
+
+
+        });
+
+        $("#totp_select").on('changed.bs.select', function () {
+            if (!isProgrammaticChange) {
+                var able = $(this).val();
+                //console.log(able);
+                if (able == "on") {
+                    totp_modal = new bootstrap.Modal(document.getElementById("modal_totp_qrcode"));
+                    totp_modal.show();
+                } else if (able == "off") {
+                    $.ajax({
+                        url: "/api/ajax.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            action: "offTotp",
+                            username: $.cookie("username"),
+                        },
+                        success: function (response) {
+                            switch (response.status) {
+                                case "logout":
+                                    showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "/login.html");
+                                    break;
+                                case "success":
+                                    showNotify('修改成功', 'success', 3000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                                    break;
+                                default:
+                                    showNotify('保存失败：' + response.message, 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                            }
+                        }
+                    })
+                }
+            }
+        })
+
+        $("#modal_totp_qrcode").on("show.bs.modal", function (event) {
+            document.getElementById("totp_qrcode").src = "/api/ajax.php?action=newTotpQrcode&username=" + $.cookie("username");
+        })
+
+        $("#btn_totp_qrcode").click(function () {
+            totp_code = document.getElementById("totp_code").value;
+            $.ajax({
+                url: "/api/ajax.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    action: "newTotp",
+                    username: $.cookie("username"),
+                    code: totp_code
+                },
+                success: function (response) {
+                    switch (response.status) {
+                        case "logout":
+                            showNotify('登录已失效', 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center', "/login.html");
+                            break;
+                        case "success":
+                            showNotify('绑定成功', 'success', 3000, 'mdi mdi-emoticon-happy', 'top', 'center');
+                            closeModalProgrammatically('modal_totp_qrcode');
+                            break;
+                        default:
+                            showNotify('保存失败：' + response.message, 'danger', 3000, 'mdi mdi-alpha-x-box-outline', 'top', 'center');
+                    }
+                }
+            })
+        })
+
+        $('#modal_totp_qrcode').on('hide.bs.modal', function (e) {
+            if (!isProgrammaticClose) {
+                modifyOptions('totp_select', "off");
+            }
+        })
+
+        function modifyOptions(id, op) {
+            isProgrammaticChange = true; // 设置为 true，表明是程序修改
+            $('#' + id).selectpicker('val', op); // 设置选中的值
+            isProgrammaticChange = false; // 恢复状态
+        }
+
+        function closeModalProgrammatically(id) {
+            isProgrammaticClose = true; // 设置标志为true
+            $('#' + id).modal('hide'); // 关闭模态框
+            isProgrammaticClose = false; // 恢复标志
+        }
+
+
+    </script>
+</body>
+
+</html>

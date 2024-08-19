@@ -1,9 +1,10 @@
 <?php
 //error_reporting(0);
-require_once("basic.php");
+require_once("../common/basic.php");
 require_once("server/tencent.php");
 require_once("server/ali.php");
 require_once("server/cf.php");
+require_once("../common/version.php");
 
 //查询服务商列表
 function getServerList($offset = 0, $limit = 10)
@@ -32,7 +33,7 @@ function checkServerStatus($server, $secretid, $secretkey)
 //编辑服务商
 function editServer($id, $servername, $server, $secretid, $secretkey)
 {
-    $sql = "UPDATE `list_server` SET `servername` = '" . $servername . "', `server` = '" . $server . "', `secretid` = '" . $secretid . "', `secretkey` = '" . $secretkey . "' WHERE `list_server`.`id` = " . $id;
+    $sql = "UPDATE `list_server` SET `servername` = '$servername', `server` = '$server', `secretid` = '$secretid', `secretkey` = '$secretkey' WHERE `list_server`.`id` = $id";
     return executeQuery($sql);
 }
 
@@ -325,4 +326,23 @@ function deletRecord($domain, $recordId, $zoneid)
             return $res;
             break;
     }
+}
+
+//系统首页信息
+function index()
+{
+    global $version_code, $version;
+    $sql1 = "SELECT COUNT(*) AS total FROM list_server";
+    $sql1res = executeQuery($sql1);
+    $sql2 = "SELECT COUNT(*) AS total FROM list_domain";
+    $sql2res = executeQuery($sql2);
+    $url = "http://rm.yinmai.asia/api/latest.php";
+    $data = array("action" => "latest");
+    $res = json_decode(CurlRequest($url, "POST", $data,), true);
+    if ($res['latest_version_code'] > $version_code) {
+        $update = true;
+    }else{
+        $update=false;
+    };
+    return array("status" => "success", "message" => array("latest_version" => $res['latest_version'], "update_notice" => $res['update_notice'], "server_count" => $sql1res[0]['total'], "domain_count" => $sql2res[0]['total'], "version" => $version, "update" => $update,"notice"=>$res['notice']));
 }

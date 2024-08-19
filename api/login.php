@@ -1,5 +1,6 @@
 <?php
-require_once("basic.php");
+require_once("../common/basic.php");
+require_once("../common/totp.php");
 
 
 // 设置返回类型为JSON
@@ -15,19 +16,25 @@ $usercode = isset($_POST['code']) ? $_POST['code'] : '';
 if (checkCaptcha($usercode)) {
 
     //调用数据库
-    $login = executeQuery("SELECT * FROM `admin_user` WHERE `username` LIKE '" . $username . "' AND `password` LIKE '" . $password . "'");
+    $login = executeQuery("SELECT * FROM `admin_user` WHERE BINARY `username` = '" . $username . "' AND BINARY `password` = '" . $password . "'");
 
     // 登录验证逻辑
     if (sizeof($login) > 0) {
-        $last_login_time = time();
-        //登录时间存入数据库
-        executeQuery("UPDATE `admin_user` SET `last_login_time` = '" . $last_login_time . "' WHERE `admin_user`.`username` = '" . $username . "'");
-        //设置jwt
-        $jwt = NewJwt($username,  $last_login_time);
-        // 登录成功
-        setcookie("Authorization", $jwt, $last_login_time + 21600, "/");
-        setcookie("username", $username, $last_login_time + 21600, "/");
-        $response = array('success' => true, 'message' => '登录成功！');
+        $totp_sql = executeQuery("SELECT * FROM `admin_user` WHERE BINARY `username` = '$username'");
+        $totp = $totp_sql[0]["2fa"];
+        if ($totp == 1) {
+            $response = ["success" => "2fa", "message" => "请进行二步验证"];
+        } else {
+            $last_login_time = time();
+            //登录时间存入数据库
+            executeQuery("UPDATE `admin_user` SET `last_login_time` = '" . $last_login_time . "' WHERE `admin_user`.`username` = '" . $username . "'");
+            //设置jwt
+            $jwt = NewJwt($username,  $last_login_time);
+            // 登录成功
+            setcookie("Authorization", $jwt, $last_login_time + 21600, "/");
+            setcookie("username", $username, $last_login_time + 21600, "/");
+            $response = array('success' => true, 'message' => '登录成功！');
+        }
     } else {
         // 登录失败
         $response = array('success' => false, 'message' => '用户名或密码错误。');

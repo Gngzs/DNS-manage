@@ -2,8 +2,8 @@
 
 namespace cf;
 
-require_once("basic.php");
-require_once("main.php");
+require_once "../common/basic.php";
+require_once "main.php";
 
 define("cfurl", "https://api.cloudflare.com/client/v4");
 
@@ -11,13 +11,13 @@ define("cfurl", "https://api.cloudflare.com/client/v4");
 function Checktoken($email, $key)
 {
     $url = cfurl . "/accounts";
-    $header = array(
-        'X-Auth-Email:' . $email,
-        'X-Auth-Key:' . $key
-    );
+    $header = [
+        "X-Auth-Email:$email",
+        "X-Auth-Key:$key"
+    ];
     $res = json_decode(CurlRequest($url, "GET", null, $header), true);
     if ($res['success'] == false) {
-        return array('status' => 'server_error', 'message' => $res['errors'][0]["message"]);
+        return array('status' => 'server_error', 'message' => $res);
     } else {
         return array("status" => "success", "message" => $res);
     }

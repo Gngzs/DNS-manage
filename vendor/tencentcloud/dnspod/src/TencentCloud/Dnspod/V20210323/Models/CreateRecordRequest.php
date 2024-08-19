@@ -36,8 +36,8 @@ use TencentCloud\Common\AbstractModel;
  * @method void setRecordLineId(string $RecordLineId) 设置线路的 ID，通过 API 记录线路获得，英文字符串，比如：10=1。参数RecordLineId优先级高于RecordLine，如果同时传递二者，优先使用RecordLineId参数。
  * @method integer getMX() 获取MX 优先级，当记录类型是 MX 时有效，范围1-20，MX 记录时必选。
  * @method void setMX(integer $MX) 设置MX 优先级，当记录类型是 MX 时有效，范围1-20，MX 记录时必选。
- * @method integer getTTL() 获取TTL，范围1-604800，不同等级域名最小值不同。
- * @method void setTTL(integer $TTL) 设置TTL，范围1-604800，不同等级域名最小值不同。
+ * @method integer getTTL() 获取TTL，范围1-604800，不同套餐域名最小值不同。
+ * @method void setTTL(integer $TTL) 设置TTL，范围1-604800，不同套餐域名最小值不同。
  * @method integer getWeight() 获取权重信息，0到100的整数。0 表示关闭，不传该参数，表示不设置权重信息。
  * @method void setWeight(integer $Weight) 设置权重信息，0到100的整数。0 表示关闭，不传该参数，表示不设置权重信息。
  * @method string getStatus() 获取记录初始状态，取值范围为 ENABLE 和 DISABLE 。默认为 ENABLE ，如果传入 DISABLE，解析不会生效，也不会验证负载均衡的限制。
@@ -46,6 +46,8 @@ use TencentCloud\Common\AbstractModel;
  * @method void setRemark(string $Remark) 设置备注
  * @method string getDnssecConflictMode() 获取开启DNSSEC时，强制添加CNAME/URL记录
  * @method void setDnssecConflictMode(string $DnssecConflictMode) 设置开启DNSSEC时，强制添加CNAME/URL记录
+ * @method integer getGroupId() 获取记录分组 Id。可以通过接口 DescribeRecordGroupList 接口 GroupId 字段获取。
+ * @method void setGroupId(integer $GroupId) 设置记录分组 Id。可以通过接口 DescribeRecordGroupList 接口 GroupId 字段获取。
  */
 class CreateRecordRequest extends AbstractModel
 {
@@ -90,7 +92,7 @@ class CreateRecordRequest extends AbstractModel
     public $MX;
 
     /**
-     * @var integer TTL，范围1-604800，不同等级域名最小值不同。
+     * @var integer TTL，范围1-604800，不同套餐域名最小值不同。
      */
     public $TTL;
 
@@ -115,6 +117,11 @@ class CreateRecordRequest extends AbstractModel
     public $DnssecConflictMode;
 
     /**
+     * @var integer 记录分组 Id。可以通过接口 DescribeRecordGroupList 接口 GroupId 字段获取。
+     */
+    public $GroupId;
+
+    /**
      * @param string $Domain 域名
      * @param string $RecordType 记录类型，通过 API 记录类型获得，大写英文，比如：A 。
      * @param string $RecordLine 记录线路，通过 API 记录线路获得，中文，比如：默认。
@@ -123,11 +130,12 @@ class CreateRecordRequest extends AbstractModel
      * @param string $SubDomain 主机记录，如 www，如果不传，默认为 @。
      * @param string $RecordLineId 线路的 ID，通过 API 记录线路获得，英文字符串，比如：10=1。参数RecordLineId优先级高于RecordLine，如果同时传递二者，优先使用RecordLineId参数。
      * @param integer $MX MX 优先级，当记录类型是 MX 时有效，范围1-20，MX 记录时必选。
-     * @param integer $TTL TTL，范围1-604800，不同等级域名最小值不同。
+     * @param integer $TTL TTL，范围1-604800，不同套餐域名最小值不同。
      * @param integer $Weight 权重信息，0到100的整数。0 表示关闭，不传该参数，表示不设置权重信息。
      * @param string $Status 记录初始状态，取值范围为 ENABLE 和 DISABLE 。默认为 ENABLE ，如果传入 DISABLE，解析不会生效，也不会验证负载均衡的限制。
      * @param string $Remark 备注
      * @param string $DnssecConflictMode 开启DNSSEC时，强制添加CNAME/URL记录
+     * @param integer $GroupId 记录分组 Id。可以通过接口 DescribeRecordGroupList 接口 GroupId 字段获取。
      */
     function __construct()
     {
@@ -192,6 +200,10 @@ class CreateRecordRequest extends AbstractModel
 
         if (array_key_exists("DnssecConflictMode",$param) and $param["DnssecConflictMode"] !== null) {
             $this->DnssecConflictMode = $param["DnssecConflictMode"];
+        }
+
+        if (array_key_exists("GroupId",$param) and $param["GroupId"] !== null) {
+            $this->GroupId = $param["GroupId"];
         }
     }
 }
