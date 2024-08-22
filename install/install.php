@@ -31,7 +31,7 @@ if (isset($_POST['action'])) {
                 $message = checkDatabaseConnection($_POST['host'], $_POST['user'], $_POST['password'], $_POST['dbname']);
                 break;
             case 'importSql':
-                $message = importSqlAndWriteConfig($_POST['host'], $_POST['user'], $_POST['password'], $_POST['dbname'], 'example.sql', '../common/config2.php', $_POST['key']);
+                $message = importSqlAndWriteConfig($_POST['host'], $_POST['user'], $_POST['password'], $_POST['dbname'], 'example.sql', '../common/config.php', $_POST['key']);
                 break;
         }
         echo json_encode($message);
