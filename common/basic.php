@@ -74,7 +74,7 @@ function executeQuery($sql)
 {
     global $sqlhost, $sqlname, $sqlpassword, $sqlport, $sqluser;
     // 创建连接
-    $conn = new mysqli($sqlhost . ":" . $sqlport, $sqluser, $sqlpassword, $sqlname);
+    $conn = new mysqli($sqlhost . $sqlport, $sqluser, $sqlpassword, $sqlname);
 
     // 检查连接
     if ($conn->connect_error) {
@@ -205,7 +205,7 @@ function CurlRequest($url, $method = 'GET', $data = null, $headers = null)
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // 启用时会将服务器服务器返回的“Location:”放在header中递归的返回给服务器
     curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);   // 设置连接超时时间（秒）
     //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl,CURLOPT_CAINFO,"../data/cacert.pem");
+    curl_setopt($curl, CURLOPT_CAINFO, "../data/cacert.pem");
 
 
     // 根据请求方法设置特定的cURL选项
@@ -283,7 +283,8 @@ function xxs($arr)
  * @param string $filePath 要写入的文件路径
  * @return void
  */
-function arrayToIniFile(array $array, string $filePath): void {
+function arrayToIniFile(array $array, string $filePath): void
+{
     $iniContent = '';
 
     foreach ($array as $section => $values) {

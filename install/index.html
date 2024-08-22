@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="keywords" content="LightYear,LightYearAdmin,光年,后台模板,后台管理系统,光年HTML模板">
+  <meta name="description" content="Light Year Admin V5是一个基于Bootstrap v5.1.3的后台管理系统的HTML模板。">
+  <title>网站安装</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" type="text/css" href="/css/materialdesignicons.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+  <link rel="stylesheet" type="text/css" href="/js/bootstrap-table/bootstrap-table.min.css">
+</head>
+
+<body>
+
+
+  <!--页面主要内容-->
+  <div class="container">
+    <div class="card">
+      <header class="card-header">
+        <div class="card-title">安装向导</div>
+      </header>
+      <div class="card-body">
+        <div class="text-center">
+          <div id="step1">
+            <table id="check">
+            </table>
+          </div>
+        </div>
+        <div id="step2" class="col-auto" style="display:none">
+          <form id="step2_form" class="signin-form needs-validation" novalidate>
+            <div class="mb-3 has-feedback">
+              <lable class="form-lable">数据库地址</lable>
+              <input class="form-control" type="text" id="sqlhost" placeholder="如：localhost:3306" required>
+            </div>
+            <div class="mb-3">
+              <lable class="form-lable">数据库名称</lable>
+              <input class="form-control" type="text" id="sqlname" placeholder="" required>
+            </div>
+            <div class="mb-3">
+              <lable class="form-lable">数据库用户名</lable>
+              <input class="form-control" type="text" id="sqluser" placeholder="" required>
+            </div>
+            <div class="mb-3">
+              <lable class="form-lable">数据库密码</lable>
+              <input class="form-control" type="password" id="sqlpassword" placeholder="" required>
+            </div>
+            <button class="btn btn-primary" type="submit">检测连接</button>
+          </form>
+          <div class="mb">
+            <div class="link-danger" id="connect_error" style="display:none"></div>
+            <div class="link-success" id="connect_success" style="display:none">连接成功</div>
+          </div>
+          <div class="mb-3">
+            <lable class="form-lable">系统密钥</lable>
+            <input class="form-control" type="text" placeholder="" id="key">
+            <small>极其重要，请输入属于自己的字符串，越复杂越长越好，有关整个系统安全，请务必不要泄露！！</small>
+          </div>
+        </div>
+        <div id="step3" class="col-auto text-center" style="display:none">
+          <h1 id="installing">正在安装中，请耐心等待……</h1>
+          <div id="install_success" style="display:none">
+            <h1>安装成功</h1>
+            <h2>默认账号：admin；默认密码：123456</h2>
+            <h2>初次登入系统后请及时修改账号密码</h2>
+          </div>
+          <h1 id="install_error" style="display:none"></h1>
+        </div>
+        <div class="col align-self-end">
+          <button class="btn btn-primary" id="btn_next" disabled>下一步</button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!--End 页面主要内容-->
+  </div>
+  </div>
+
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/popper.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/perfect-scrollbar.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.cookie.min.js"></script>
+  <script type="text/javascript" src="/js/main.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.bootstrap.wizard.min.js"></script>
+  <script src="/js/bootstrap-table/bootstrap-table.js"></script>
+  <script src="/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+  <script type="text/javascript" src="/js/lyear-loading.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    step = 1;
+    databaseConnect = false;
+    var columns = [{
+      field: 'id',
+      title: '序号'
+    }, {
+      field: 'name',
+      title: '组件名称'
+    }, {
+      field: 'result',
+      title: '检测结果',
+      formatter: function (value, row, index) {
+        if (!value) {
+          return '<span class="badge bg-danger">异常</span>';
+        } else if (value) {
+          return '<span class="badge bg-success">满足</span>';
+        } else {
+          return '<span class="badge bg-secondary">未知</span>';
+        }
+      }
+    }];
+
+    $('#check').bootstrapTable({
+      url: 'install.php',
+      pagination: false,
+      columns: columns,
+      method: 'POST',
+      dataType: 'json',
+      contentType: "application/x-www-form-urlencoded",
+      queryParams: function (params) {
+        params.action = "checkPHP";
+        return params;
+      },
+      onLoadSuccess: function (data) {
+        if (data.success == false) {
+          alert("请求失败：" + data.message);
+          return false
+        }
+        var next = data.every(function (value) {
+          return value.result == true;
+        })
+        if (next) {
+          document.getElementById('btn_next').removeAttribute('disabled');
+        }
+      }
+    });
+
+    $("#btn_next").click(function () {
+      switch (step) {
+        case 1:
+          //document.getElementById("step1").style.display = "none";
+          $("#step1").hide();
+          $("#btn_next").attr("disabled", "disabled");
+          //document.getElementById("step2").style.display = "block";
+          $("#step2").show();
+          step = 2
+          break;
+        case 2:
+          if (!$('#key').val()) {
+            alert("请输入系统密钥");
+          } else {
+            if (!databaseConnect) {
+              alert("请检查数据库连接");
+            } else {
+              $("#btn_next").text("完成");
+              $("#step2").hide();
+              $("#step3").show("fast", step3());
+              step = 3;
+            }
+          }
+          break;
+        case 3:
+          window.location.href="/";
+          break;
+        default:
+          alert("你干嘛~");
+          break;
+      }
+    })
+
+    $("#step2_form").submit(function () {
+      if ($(this)[0].checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        $(this).addClass('was-validated');
+        return false;
+      }
+      var ll = $('body').lyearloading({
+        opacity: 0.5,              // 遮罩层透明度，为0时不透明
+        backgroundColor: '#ccc',           // 遮罩层背景色
+        imgUrl: '',               // 使用图片时的图片地址
+        textColorClass: 'text-success',   // 文本文字的颜色
+        spinnerColorClass: 'text-success',   // 加载动画的颜色(不使用图片时有效)
+        spinnerSize: 'lg',             // 加载动画的大小(不使用图片时有效，示例：sm/nm/md/lg，也可自定义大小，如：25px)
+        spinnerText: '加载中...',       // 文本文字    
+        zindex: 9999,             // 元素的堆叠顺序值
+      });
+      event.preventDefault();
+      $.ajax({
+        url: "install.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "checkDatabase",
+          host: $('#sqlhost').val(),
+          user: $('#sqluser').val(),
+          password: $('#sqlpassword').val(),
+          dbname: $('#sqlname').val()
+        },
+        timeout: 10000,
+        success: function (response) {
+          ll.destroy();
+          switch (response.success) {
+            case true:
+              $('#connect_error').hide();
+              $('#connect_success').show();
+              databaseConnect = true;
+              $('#btn_next').removeAttr('disabled');
+              break;
+            case false:
+              $('#connect_success').hide();
+              $('#connect_error').text('连接错误：' + response.message);
+              $('#connect_error').show();
+              databaseConnect = false;
+              break;
+            default:
+              $('#connect_success').hide();
+              $('#connect_error').text('未知错误，请检查连接信息');
+              $('#connect_error').show();
+              databaseConnect = false;
+              break;
+          }
+        },
+        error: function () {
+          ll.destroy();
+          $('#connect_success').hide();
+          $('#connect_error').text('连接超时，请检查连接信息');
+          $('#connect_error').show();
+          databaseConnect = false;
+        }
+      })
+    })
+
+    function step3() {
+      $.ajax({
+        url: "install.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "importSql",
+          host: $('#sqlhost').val(),
+          user: $('#sqluser').val(),
+          password: $('#sqlpassword').val(),
+          dbname: $('#sqlname').val(),
+          key: $('#key').val()
+        },
+        success: function (response) {
+          switch (response.success) {
+            case true:
+              $("#installing").hide();
+              $("#install_success").show();
+              break;
+            case false:
+              $("#installing").hide();
+              $("#install_error").show();
+              $("#install_error").text("安装失败：" + response.message);
+              break;
+          }
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>
