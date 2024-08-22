@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-08-08 23:24:49
+-- 生成日期： 2024-08-23 00:06:51
 -- 服务器版本： 8.0.29
 -- PHP 版本： 7.4.27
 
@@ -34,7 +34,7 @@ CREATE TABLE `admin_user` (
   `mail` text NOT NULL,
   `last_login_time` int NOT NULL,
   `enable` int NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- 转存表中的数据 `admin_user`
@@ -51,10 +51,10 @@ INSERT INTO `admin_user` (`id`, `username`, `password`, `mail`, `last_login_time
 
 CREATE TABLE `list_domain` (
   `id` int NOT NULL,
-  `domain` text NOT NULL,
-  `servername` text NOT NULL,
-  `location` text NOT NULL,
-  `zoneid` text NOT NULL
+  `domain` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `servername` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `location` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
+  `zoneid` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -70,7 +70,7 @@ CREATE TABLE `list_server` (
   `secretid` text NOT NULL,
   `secretkey` text NOT NULL,
   `enable` int NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- 转储表的索引
