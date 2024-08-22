@@ -55,7 +55,7 @@ CREATE TABLE `list_domain` (
   `servername` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
   `location` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
   `zoneid` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
