@@ -43,7 +43,7 @@ CREATE TABLE `admin_user` (
 --
 
 INSERT INTO `admin_user` (`id`, `username`, `password`, `mail`, `last_login_time`, `enable`, `2fa`, `2fakey`) VALUES
-(1, 'admin', 'f447b20a7fcbf53a5d5be013ea0b15af', 'example@exa.exa', 1724343820, 1, 0, '');
+(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'example@exa.exa', 1724343820, 1, 0, '');
 
 -- --------------------------------------------------------
 
