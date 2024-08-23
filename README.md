@@ -24,7 +24,7 @@
 请查阅文档
 ***
 ## 使用
-官方网站[YM域名解析管理系统](https://ym.yinmai.asia)
+官方网站[YM域名解析管理系统](http://rm.yinmai.asia)
 
 使用文档[YM文档](https://wiki.yinmai.asia)
 ***
