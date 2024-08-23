@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： localhost
--- 生成日期： 2024-08-23 00:06:51
+-- 生成日期： 2024-08-23 13:09:20
 -- 服务器版本： 8.0.29
 -- PHP 版本： 7.4.27
 
@@ -15,7 +15,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8mb3 */;
 
 --
 -- 数据库： `example`
@@ -33,15 +33,17 @@ CREATE TABLE `admin_user` (
   `password` text NOT NULL,
   `mail` text NOT NULL,
   `last_login_time` int NOT NULL,
-  `enable` int NOT NULL DEFAULT '1'
+  `enable` int NOT NULL DEFAULT '1',
+  `2fa` int NOT NULL DEFAULT '0',
+  `2fakey` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- 转存表中的数据 `admin_user`
 --
 
-INSERT INTO `admin_user` (`id`, `username`, `password`, `mail`, `last_login_time`, `enable`) VALUES
-(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'example@exa.exa', 1723126780, 1);
+INSERT INTO `admin_user` (`id`, `username`, `password`, `mail`, `last_login_time`, `enable`, `2fa`, `2fakey`) VALUES
+(1, 'admin', 'f447b20a7fcbf53a5d5be013ea0b15af', 'example@exa.exa', 1724343820, 1, 0, '');
 
 -- --------------------------------------------------------
 
@@ -51,11 +53,11 @@ INSERT INTO `admin_user` (`id`, `username`, `password`, `mail`, `last_login_time
 
 CREATE TABLE `list_domain` (
   `id` int NOT NULL,
-  `domain` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `servername` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `location` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL,
-  `zoneid` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_general_ci;
+  `domain` text NOT NULL,
+  `servername` text NOT NULL,
+  `location` text NOT NULL,
+  `zoneid` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 

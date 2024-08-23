@@ -115,7 +115,7 @@ if (isset($_GET['action'])) {
             $secret = ymtotp::CreatSecret();
             //setcookie("totpSecret", $secret, time() + 600, "/");
             $_SESSION['totpSecret'] = $secret;
-            $qrcode = ymtotp::CreatQR($_GET['username'], $secret);
+            $qrcode = @ymtotp::CreatQR($_GET['username'], $secret);
             break;
     }
 }
